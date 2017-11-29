@@ -222,6 +222,8 @@ func NewGtkAppIndicator(id, iconName string, category Category) *AppIndicatorGot
 	return &AppIndicatorGotk3{(*NewAppIndicator(id, iconName, category))}
 }
 
+// iconPath is the directory where the icon is located
+// iconPath must be the file name of the icon, without the extension
 func NewGtkAppIndicatorWithPath(id, iconName, iconPath string, category Category) *AppIndicatorGotk3 {
 	return &AppIndicatorGotk3{(*NewAppIndicatorWithPath(id, iconName, iconPath, category))}
 }
