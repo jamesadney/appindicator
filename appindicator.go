@@ -51,7 +51,7 @@ func NewAppIndicator(id, iconName string, category Category) *AppIndicator {
 }
 
 // Creates a new AppIndicator using a specific icon path.
-func NewAppIndicatorWithPath(id, iconName, iconPath string, category int) *AppIndicator {
+func NewAppIndicatorWithPath(id, iconName, iconPath string, category Category) *AppIndicator {
 	idString := (*C.gchar)(unsafe.Pointer(C.CString(id)))
 	defer C.free(unsafe.Pointer(idString))
 	iconNameString := (*C.gchar)(unsafe.Pointer(C.CString(iconName)))
@@ -222,7 +222,7 @@ func NewGtkAppIndicator(id, iconName string, category Category) *AppIndicatorGot
 	return &AppIndicatorGotk3{(*NewAppIndicator(id, iconName, category))}
 }
 
-func NewGtkAppIndicatorWithPath(id, iconName, iconPath string, category int) *AppIndicatorGotk3 {
+func NewGtkAppIndicatorWithPath(id, iconName, iconPath string, category Category) *AppIndicatorGotk3 {
 	return &AppIndicatorGotk3{(*NewAppIndicatorWithPath(id, iconName, iconPath, category))}
 }
 
