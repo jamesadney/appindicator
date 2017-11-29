@@ -7,7 +7,10 @@ package appindicator
 //#include <gtk/gtk.h>
 //#include <libappindicator/app-indicator.h>
 import "C"
-import "unsafe"
+import (
+	"unsafe"
+	"github.com/gotk3/gotk3/gtk"
+)
 
 // AppIndicatorCatogory
 type Category int
@@ -208,4 +211,25 @@ func (indicator *AppIndicator) BuildMenuFromDesktop(filePath, profile string) {
 	defer C.free(unsafe.Pointer(profileString))
 
 	C.app_indicator_build_menu_from_desktop((*C.AppIndicator)(indicator.IndicatorPtr), filePathString, profileString)
+}
+
+
+type AppIndicatorGotk3 struct {
+	AppIndicator
+}
+
+func NewGtkAppIndicator(id, iconName string, category Category) *AppIndicatorGotk3 {
+	return &AppIndicatorGotk3{(*NewAppIndicator(id, iconName, category))}
+}
+
+func NewGtkAppIndicatorWithPath(id, iconName, iconPath string, category int) *AppIndicatorGotk3 {
+	return &AppIndicatorGotk3{(*NewAppIndicatorWithPath(id, iconName, iconPath, category))}
+}
+
+func (indicator *AppIndicatorGotk3) SetMenu(menu *gtk.Menu) {
+	C.app_indicator_set_menu((*C.AppIndicator)(indicator.IndicatorPtr), (*C.GtkMenu)(unsafe.Pointer(menu.Native())))
+}
+
+func (indicator *AppIndicatorGotk3) SetSecondaryActivateTarget(menuItem *gtk.Widget) {
+	C.app_indicator_set_secondary_activate_target((*C.AppIndicator)(indicator.IndicatorPtr), (*C.GtkWidget)(unsafe.Pointer(menuItem.Native())))
 }
